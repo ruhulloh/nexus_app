@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+{% block content %}
+            <div id="hero-area">
+                <div class="overlay"></div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 text-center">
+                            <div class="contents-ctg">
+                                <div class="search-bar">
+                                    <div class="search-inner">
+                                        <form class="search-form">
+                                            <div class="form-group inputwithicon">
+                                                <i class="lni-tag"></i>
+                                                <input type="text" name="customword" class="form-control" placeholder="Enter Product Keyword" />
+                                            </div>
+                                            <div class="form-group inputwithicon">
+                                                <i class="lni-target"></i>
+                                                <div class="select">
+                                                    <select>
+                                                    	{% for loc in location%}
+                                                        <option value="none">All Locations</option>
+                                                    	{% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group inputwithicon">
+                                                <i class="lni-menu"></i>
+                                                <div class="select">
+                                                    <select> 
+                                                    	<option value="none"> Select option</option>
+                                                    	{% for ctg in is_option%}
+                                                        <option value="none">{{ctg.name}}</option>
+                                                    	{% endfor %}
+                                                      
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <button class="btn btn-common" type="button"><i class="lni-search"></i> Search Now</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+     
+
+
+
+        <div class="main-container section-padding">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-md-12 col-xs-12 page-sidebar">
+                        <aside>
+                            <div class="widget_search">
+                                <form role="search" id="search-form">
+                                    <input type="search" class="form-control" autocomplete="off" name="s" placeholder="Search..." id="search-input" value="" />
+                                    <button type="submit" id="search-submit" class="search-btn"><i class="lni-search"></i></button>
+                                </form>
+                            </div>
+
+                            <div class="widget categories">
+                                <h4 class="widget-title">All Categories</h4>
+                                <ul class="categories-list">
+                                	{% for ct in ctg%}
+                                    <li>
+                                        <a href="#">
+                                            <i class="lni-dinner"></i>
+                                            {{ct.name}} <span class="category-counter">({{ct.nm}})</span>
+                                        </a>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            <div class="widget">
+                                <h4 class="widget-title">Advertisement</h4>
+                         
+                            </div>
+                        </aside>
+                    </div>
+                    <div class="col-lg-9 col-md-12 col-xs-12 page-content">
+                        <div class="product-filter">
+                            <div class="short-name">
+                                <span>Showing (1 - 12 products of 7371 products)</span>
+                            </div>
+                            <div class="Show-item">
+                                <span>Show Items</span>
+                                <form class="woocommerce-ordering" method="post">
+                                    <label>
+                                        <select name="order" class="orderby">
+                                            <option selected="selected" value="menu-order">49 items</option>
+                                            <option value="popularity">popularity</option>
+                                            <option value="popularity">Average ration</option>
+                                            <option value="popularity">newness</option>
+                                            <option value="popularity">price</option>
+                                        </select>
+                                    </label>
+                                </form>
+                            </div>
+                            <ul class="nav nav-tabs">
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#grid-view"><i class="lni-grid"></i></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="tab" href="#list-view"><i class="lni-list"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+<!-- 
+                        <div class="adds-wrapper">
+                            <div class="tab-content">
+                                <div id="grid-view" class="tab-pane fade">
+                                    <div class="row"> -->
+
+{% for prod in products %}
+<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+    <div class="featured-box">
+        <figure>
+            <span class="price-save">{{ prod.discount }} Save</span>
+            <div class="icon">
+                <span class="bg-green"><i class="lni-heart"></i></span>
+                <span><i class="lni-bookmark"></i></span>
+            </div>
+            
+                <a href="#"><img class="img-fluid" src="{{ prod.main_images.0.image.url }}" alt="" /></a>
+           
+        </figure>
+        <div class="feature-content" style="display: flow-root;">
+            <div class="product">
+                <a href="#">{{ prod.category }}</a>
+                <a href="#">{{ prod.title }}</a>
+            </div>
+            <h4><a href="{% url 'product-detail' prod.pk %}">{{ prod.title }} ...</a></h4>
+            <div class="meta-tag">
+                <span><a href="#"><i class="lni-map-marker"></i> {{ prod.location }}</a></span>
+                <span><a href="#"><i class="lni-tag"></i> {{ prod.title }}</a></span>
+            </div>
+            <p class="dsc">{{ prod.description }}</p>
+            <div class="listing-bottom">
+                <h3 class="price float-left">${{ prod.price }}</h3>
+                <!-- {% if prod.slug %} -->
+                    <a href="{% url 'product-detail' prod.pk %}" class="btn btn-common float-right">View Details</a>
+                <!-- {% else %} -->
+                    <!-- <span class="btn btn-disabled float-right">No Details </span> -->
+                <!-- {% endif %} -->
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+<div class="pagination">
+    <span class="step-links">
+        {% for num in products.paginator.page_range %}
+            {% if products.number == num %}
+                <button style="border: none;color: #ffffff;background: #e81e63;border-radius: 5pc 5pc;width: 50px;">
+                    {{ num }}
+                </button>
+            {% else %}
+                <a href="?page={{ num }}">
+                    <button style="border: none;color: #ffffff;background: gray;border-radius: 5pc 5pc;width: 50px;">
+                        {{ num }}
+                    </button>
+                </a>
+            {% endif %}
+        {% endfor %}
+    </span>
+</div>
+
+
+
+<br><div></div>
+<br>
+<br>
+<br>
+
+{% endblock content%}
