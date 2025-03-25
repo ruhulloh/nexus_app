@@ -7,9 +7,9 @@ from .models import *
 def category_products(request):
 	product = Product.objects.prefetch_related(Prefetch('images', queryset=ProductImage.objects.filter(is_main=True), to_attr='main_images'))
 	# product = Product.objects.all()
-	paginator  = Paginator(product,2)
+	paginator  = Paginaget_tor(product,2)
 	pag_req = request.GET.get("page")
-	page_obj =  paginator.get_page(pag_req)
+	page_obj =  paginator.page(pag_req)
 	context  = {
 		'products':page_obj,
 		# 'images':product_images,
