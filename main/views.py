@@ -4,6 +4,8 @@ from category.models import Category, Region
 from product.models import Product, ProductImage
 from .forms import *
 from django.contrib.auth import authenticate,login,logout
+from django.contrib.auth.forms import UserCreationForm
+
 
 def login_view(request):
     form = LoginForm()
@@ -24,8 +26,21 @@ def login_view(request):
 def logout_view(request):
     logout(request)  
     request.session.flush()
-    return redirect('home')
-  
+    return redirect('main')
+def register_view(request):
+	form = RegisterForm()
+	if request.method == "POST":
+		form = RegisterForm(request.POST)
+		if form.is_valid():
+			form.save()
+			return redirect('login')
+		else:
+			form.add_error(None,"Toliq va hatolarsiz toldiring!")
+	context = {
+     'form':form
+		}
+	return render(request,'register.html',context)			
+
 def main(request):
     # Barcha kategoriyalarni olish
     
